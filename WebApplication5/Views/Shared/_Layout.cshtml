@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ASP.NET Uygulamam</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Scripts/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <!--                Navbar             -->
+        <div class="container">
+            @Html.ActionLink("E-Ref", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <!-- İçeriğin genişliği için bir sütun oluşturuyoruz -->
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+                        {
+                            <div class="input-group">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Ara" aria-label="Search" name="searchTerm">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="submit">Ara</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <i class="bi bi-person-vcard"></i>
+            </div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Gezintiyi aç/kapat" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav flex-grow-1 ">
+                    <li>@Html.ActionLink("Arkadaşlar", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Eşleşme", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Bildirim", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                </ul>
+            </div>
+
+            <i class="bi bi-person-vcard-fill text-white ml-3" style="font-size: 24px;"></i>
+        </div>
+   
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - ASP.NET Uygulamam</p>
+        </footer>
+    </div>
+    <!--          Sohbet Kutusu         -->
+    <div>
+        <button id="open-chat-btn">Sohbet</button>
+
+        <div id="chat-box" class="chat-box">
+            <div class="chat-header">
+                <h2>Sohbet Kutusu</h2>
+                <button id="close-chat-btn">X</button>
+            </div>
+            <div id="chat-body" class="chat-body">
+                <!-- Sohbet içeriği buraya gelecek -->
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="message-input" placeholder="Mesajınızı buraya yazın...">
+                <button id="send-btn">Gönder</button>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+<style>
+    .chat-box {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 300px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+    }
+
+    .chat-header {
+        background-color: #ddd;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .chat-header h2 {
+            margin: 0;
+        }
+
+    .chat-body {
+        padding: 10px;
+        height: 200px;
+        overflow-y: auto;
+    }
+
+    .chat-footer {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+        .chat-footer input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .chat-footer button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+    #open-chat-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+    }
+  
+</style>
+
+<script>
+    document.getElementById("open-chat-btn").addEventListener("click", function () {
+        document.getElementById("chat-box").style.display = "block";
+    });
+
+    document.getElementById("close-chat-btn").addEventListener("click", function () {
+        document.getElementById("chat-box").style.display = "none";
+    });
+    document.getElementById("send-btn").addEventListener("click", function () {
+        var messageInput = document.getElementById("message-input");
+        var message = messageInput.value;
+        if (message.trim() !== "") {
+            var messageElement = document.createElement("div");
+            messageElement.textContent = message;
+            document.getElementById("chat-body").appendChild(messageElement);
+            messageInput.value = "";
+        }
+    });  
+</script>
